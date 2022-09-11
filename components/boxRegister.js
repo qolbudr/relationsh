@@ -1,17 +1,16 @@
 import StepRegister from './stepRegister'
 import Link from 'next/link'
-import {useState} from 'react'
+import { useState } from 'react'
 import FormGroup from './forms/formGroup'
 import Button from './forms/button'
 import AppLogo from './appLogo'
+import { sleep } from '../utils/sleep'
+import { register } from '../utils/auth'
 
 const BoxRegister = () => {
 	const [step, setStep] = useState(0)
 	const [isLoading, setLoading] = useState(false)
-
-	const sleep = ms => new Promise(
-	  resolve => setTimeout(resolve, ms)
-	);
+	const [form, setForm] = useState({})
 
 	const stepIncrement = async () => {
 		setLoading(true)
@@ -20,14 +19,29 @@ const BoxRegister = () => {
 		setLoading(false)
 	}
 
+	const handleChange = (e) => {
+		const name = e.target.name;
+		const value = e.target.value;
+		
+		setForm({
+			...form,
+			[name]: value
+		})
+	}
+
+	const tryRegister = async () => {
+		const user = await register(form.name, form.email, form.password)
+		console.log(user.code)
+	}
+
 	return (
 		<div className="w-10/12 md:w-80">
 			<AppLogo/>
-			<StepRegister step={step} isLoading={isLoading}/>
+			<StepRegister onChange={handleChange} step={step} isLoading={isLoading}/>
 			{!isLoading ? (
 				<>
 					<FormGroup>
-						<Button onClick={stepIncrement}>Next</Button>
+						<Button onClick={step == 2 ? tryRegister : stepIncrement}>{step == 2 ? 'Register' : 'Next'}</Button>
 					</FormGroup>
 					<FormGroup>
 						<div class="block text-center mt-7 w-100">

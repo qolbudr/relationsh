@@ -4,7 +4,7 @@ import Label from './forms/label'
 import Button from './forms/button'
 import {ImSpinner8} from 'react-icons/im'
 
-const StepRegister = ({step, isLoading}) => {
+const StepRegister = ({step, onChange, isLoading}) => {
 	if(isLoading == true)
 		return (
 			<FormGroup>
@@ -20,7 +20,7 @@ const StepRegister = ({step, isLoading}) => {
 		return (
 			<FormGroup>
 				<Label>Full name</Label>
-				<Input type="text" placeholder="Your name" label="name-input"/>
+				<Input name="name" onChange={onChange} type="text" placeholder="Your name" label="name-input"/>
 			</FormGroup>
 		)
 
@@ -28,7 +28,7 @@ const StepRegister = ({step, isLoading}) => {
 		return (
 			<FormGroup>
 				<Label>Email address</Label>
-				<Input type="email" placeholder="name@example.com" label="email-input"/>
+				<Input type="email" name="email" onChange={onChange} placeholder="name@example.com" label="email-input"/>
 			</FormGroup>
 		)
 
@@ -37,11 +37,11 @@ const StepRegister = ({step, isLoading}) => {
 			<>
 				<FormGroup>
 					<Label>Password</Label>
-					<Input type="password" placeholder="********" label="password-input"/>
+					<Input type="password" name="password" onChange={onChange} placeholder="********" label="password-input"/>
 				</FormGroup>
 				<FormGroup>
 					<Label>Password Confirmation</Label>
-					<Input type="password" placeholder="********" label="password-input"/>
+					<Input type="password" name="password_confirmation" onChange={onChange} placeholder="********" label="password-input"/>
 				</FormGroup>
 			</>
 		)

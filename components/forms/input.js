@@ -1,6 +1,8 @@
-const Input = ({placeholder, label, value, type}) => {
+const Input = ({placeholder, label, value, type, onChange, name}) => {
 	return (
 		<input
+			name={name}
+			onChange={onChange}
 			type={type}
 			value={value}
 			aria-label={label}
