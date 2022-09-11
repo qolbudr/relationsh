@@ -6,6 +6,7 @@ import Button from './forms/button'
 import AppLogo from './appLogo'
 import { sleep } from '../utils/sleep'
 import { register } from '../utils/auth'
+import toast, { Toaster } from 'react-hot-toast';
 
 const BoxRegister = () => {
 	const [step, setStep] = useState(0)
@@ -30,12 +31,30 @@ const BoxRegister = () => {
 	}
 
 	const tryRegister = async () => {
+		if(form.password != form.password_confirmation)
+		{
+			return toast('Password and confirmation is different', {
+			  icon: '😠',
+			});
+		}
+
 		const user = await register(form.name, form.email, form.password)
-		console.log(user.code)
+		
+		if(user.hasOwnProperty('error'))
+		{
+			setStep(0)
+			toast(user.error.message, {
+			  icon: '😠',
+			});
+		}
 	}
 
 	return (
 		<div className="w-10/12 md:w-80">
+			<Toaster
+			  position="top-center"
+			  reverseOrder={false}
+			/>
 			<AppLogo/>
 			<StepRegister onChange={handleChange} step={step} isLoading={isLoading}/>
 			{!isLoading ? (

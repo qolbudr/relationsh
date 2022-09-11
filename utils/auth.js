@@ -7,7 +7,12 @@ export const login = async (email, password) => {
 		const credential = await signInWithEmailAndPassword(auth, email, password)
 		return credential.user;
 	} catch (e) {
-    return e;
+		const error = {
+			error: {
+				message: e.code
+			}
+		}
+    return error;
 	}
 }
 
@@ -16,6 +21,11 @@ export const register =  async (name, email, password) => {
 		const credential = await createUserWithEmailAndPassword(auth, email, password);
 		return credential.user;
 	} catch (e) {
-		return e;
+		const error = {
+			error: {
+				message: e.code
+			}
+		}
+    return error;
 	}
 }

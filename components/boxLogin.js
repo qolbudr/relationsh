@@ -6,6 +6,7 @@ import Link from 'next/link'
 import AppLogo from './appLogo'
 import { login } from '../utils/auth'
 import { useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 
 const BoxLogin = () => {
 	const [form, setForm] = useState({})
@@ -22,21 +23,31 @@ const BoxLogin = () => {
 
 	const tryLogin = async () => {
 		const user = await login(form.email, form.password)
-		console.log(user.code)
+		if(user.hasOwnProperty('error'))
+		{
+			setForm({email: '', password: ''})
+			toast(user.error.message, {
+			  icon: '😠',
+			});
+		}
 	}
 
 
 
 	return (
 		<div className="w-10/12 md:w-80">
+			<Toaster
+			  position="top-center"
+			  reverseOrder={false}
+			/>
 			<AppLogo/>
 			<FormGroup>
 				<Label>Email address</Label>
-				<Input type="email" name="email" onChange={handleChange} placeholder="name@example.com" label="email-input"/>
+				<Input type="email" name="email" value={form.email} onChange={handleChange} placeholder="name@example.com" label="email-input"/>
 			</FormGroup>
 			<FormGroup>
 				<Label>Password</Label>
-				<Input type="password" name="password" onChange={handleChange} placeholder="********" label="password-input"/>
+				<Input type="password" name="password" value={form.password} onChange={handleChange} placeholder="********" label="password-input"/>
 			</FormGroup>
 			<FormGroup>
 				<Button onClick={tryLogin}>Login</Button>
