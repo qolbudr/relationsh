@@ -3,10 +3,12 @@ import Input from './forms/input'
 import Label from './forms/label'
 import Button from './forms/button'
 import Link from 'next/link'
+import AppLogo from './appLogo'
 
 const BoxLogin = () => {
 	return (
 		<div className="w-10/12 md:w-80">
+			<AppLogo/>
 			<FormGroup>
 				<Label>Email address</Label>
 				<Input type="email" placeholder="name@example.com" label="email-input"/>
