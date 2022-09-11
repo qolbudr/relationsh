@@ -1,6 +1,8 @@
-const Button = ({children, label}) => {
+const Button = ({children, label, onClick}) => {
 	return (
-		<button className="
+		<button
+			onClick={onClick} 
+			className="
 			transition
 			ease-in-out
 			hover:shadow-md 
