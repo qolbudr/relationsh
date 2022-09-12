@@ -60,7 +60,7 @@ const UserBoard = () => {
 					</div>
 				</div>
 				<div className="w-full text-center mb-3 fixed bg-slate-100 z-10 top-0 left-0 right-0 p-5">
-					<h3 className="text-xl font-medium">{user.displayName}'s Board</h3>
+					<h3 className="text-xl font-medium">{user.displayName}&apos;s Board</h3>
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
 					{ (filter.length > 0 ? filter : board).map((item, index) =>
