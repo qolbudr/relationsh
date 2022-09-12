@@ -1,10 +1,12 @@
 import '../styles/globals.css'
-import {AuthProvider} from '../utils/context'
+import { AuthProvider, AuthState } from '../utils/context'
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <AuthState>
+        <Component {...pageProps} />
+      </AuthState>
     </AuthProvider>
   )
 }

@@ -1,6 +1,7 @@
-import { createContext, useState, useContext } from "react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createContext, useState, useContext, useEffect } from "react";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { auth } from './firebase'
+import LoadingSpiner from '../components/loadingSpiner'
 
 const AuthContext = createContext();
 
@@ -56,4 +57,28 @@ export const AuthProvider = (props) => {
 	return (
 		<AuthContext.Provider value={value} {...props}></AuthContext.Provider>
 	)
+}
+
+export const AuthState = ({children}) => {
+	const { user, setUser } = useAuth()
+	const [isLoading, setLoading] = useState(true)
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+		  if (user) {
+		    setUser(user)
+		  }
+
+		  setLoading(false)
+		});
+	}, [])
+
+	if(isLoading)
+		return (
+			<>
+				<LoadingSpiner/>
+			</>
+		)
+
+	return children;
 }

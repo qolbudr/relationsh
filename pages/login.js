@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../utils/firebase'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { forceSignedIn } from '../utils/pageMiddleware'
 
 const Login = () => {
 	const router = useRouter();
@@ -18,4 +19,4 @@ const Login = () => {
 	)
 }
 
-export default Login;
+export default forceSignedIn(Login);
