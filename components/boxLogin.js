@@ -8,6 +8,7 @@ import { useAuth } from '../utils/context'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router'
+import { sleep } from '../utils/sleep'
 
 const BoxLogin = () => {
 	const router = useRouter()
@@ -35,7 +36,7 @@ const BoxLogin = () => {
 			});
 		}
 
-		return router.replace('user/board')
+		return router.replace('/user/board')
 	}
 
 	return (

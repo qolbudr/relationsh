@@ -1,7 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "firebase/auth";
-import { auth } from './firebase'
+import { auth, db } from './firebase'
 import LoadingSpiner from '../components/loadingSpiner'
+import { doc, setDoc } from 'firebase/firestore'
 
 const AuthContext = createContext();
 
@@ -23,7 +24,6 @@ export const AuthProvider = (props) => {
 					message: e.code
 				}
 			}
-	    setUser(error)
 	    return error
 		}
 	}
@@ -35,6 +35,12 @@ export const AuthProvider = (props) => {
 			  displayName: name, photoURL: "https://ui-avatars.com/api/?background=random&name=" + name
 			})
 			setUser(credential.user)
+
+			await setDoc(doc(db, "users", credential.user.uid), {
+			  name: name,
+			  photoURL: "https://ui-avatars.com/api/?background=random&name=" + name
+			});
+
 			return credential.user
 		} catch (e) {
 			const error = {
@@ -42,12 +48,17 @@ export const AuthProvider = (props) => {
 					message: e.code
 				}
 			}
-	    setUser(error)
 	    return error
 		}
 	}
 
+	const logout = () => {
+		setUser(null)
+    return auth.signOut()
+  }
+
 	const value = {
+		logout,
 		login,
 		register,
 		user,

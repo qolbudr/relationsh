@@ -4,10 +4,26 @@ import SideMenuDivider from '../../components/sideMenuDivider'
 import { useAuth } from '../../utils/context'
 import { RiLogoutCircleLine } from 'react-icons/ri'
 import { IoMdShare } from 'react-icons/io'
-import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { fetchBoard } from '../../utils/db'
+import CardBoard from '../../components/cardBoard'
+import { useRouter } from 'next/router'
+import { protectedPage } from '../../utils/pageMiddleware'
 
 const UserBoard = () => {
-	const { user } = useAuth()
+	const { user, logout } = useAuth()
+	const [ board, setBoard ] = useState([])
+	const route = useRouter()
+
+	useEffect(() => {
+		fetchBoard(user.uid, board, setBoard)
+		}, 
+	[])
+
+	const tryLogout = () => {
+		logout();
+		route.replace('/login')
+	}
 
 	return (
 		<Layout title="RelationSh#@!& - User Board">
@@ -22,25 +38,26 @@ const UserBoard = () => {
 							<SideMenuDivider/>
 							<SideMenuItem><IoMdShare/></SideMenuItem>
 							<SideMenuDivider/>
-							<SideMenuItem><RiLogoutCircleLine/></SideMenuItem>
+							<SideMenuItem onClick={tryLogout}><RiLogoutCircleLine/></SideMenuItem>
 						</ul>
 					</div>
 				</div>
 				<div className="w-full text-center mb-3 fixed top-0 left-0 right-0 p-5">
 					<h3 className="text-xl font-medium">{user.displayName}'s Board</h3>
 				</div>
-				<div className="grid grid-cols-4 gap-4 mt-14">
-				  <div className="bg-yellow-100 row-span-2 rounded shadow p-5 min-h-full">
-				  	<div className="flex items-center justify-between mb-5">
-				  		<h4 className="text-md font-medium">Beaver Mode</h4>
-				  		<Image width="32" height="32" className="rounded-full" src="https://ui-avatars.com/api/?background=random&name=Beaver Mode" />
-				  	</div>
-				  	<h6 className="text-sm font-normal text-slate-900">Beaver Mode sdfkdhsfs sdfhksdhf skdhfkshdf ksdhfkhsdf skdhfsdhf skdhfksdhf skdhfksdhf ksdjdh</h6>
-				  </div>
+				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
+					{ board.map((item, index) =>
+					  <CardBoard 
+					  	index={index}
+					  	type={item.type}
+					  	name={item.name}
+					  	content={item.content}
+					  />
+					)}
 				</div>
 			</div>
     </Layout>
 	)
 }
 
-export default UserBoard;
+export default protectedPage(UserBoard);
