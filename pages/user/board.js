@@ -12,11 +12,13 @@ import { protectedPage } from '../../utils/pageMiddleware'
 
 const UserBoard = () => {
 	const { user, logout } = useAuth()
-	const [ board, setBoard ] = useState([])
+	const [ board, setBoard ] = useState([]) 
+	const [ filter, setFilter ] = useState([])
+	const [ type, setType ] = useState(null)
 	const route = useRouter()
 
 	useEffect(() => {
-		fetchBoard(user.uid, board, setBoard)
+			fetchBoard(user.uid, board, setBoard)
 		}, 
 	[])
 
@@ -25,18 +27,33 @@ const UserBoard = () => {
 		route.replace('/login')
 	}
 
+	const handleClick = (e) => {
+		const name = e.currentTarget.getAttribute('name')
+		setType(name)
+		const filteredBoard = board.filter((item) => item.type == name)
+		setFilter(filteredBoard)
+
+		if(name == type)
+		{
+			setType(null)
+			setFilter(board)
+		}
+	}
+
 	return (
 		<Layout title="RelationSh#@!& - User Board">
 			<div className="relative w-full min-h-screen p-5">
 				<div className="fixed h-screen flex items-center top-0 bottom-0 left-5">
 					<div className="left-5 inline shadow p-4 rounded top-5 bg-white w-15">
 						<ul className="list-unstyled text-3xl lg:text-4xl">
-							<SideMenuItem>😇</SideMenuItem>
-							<SideMenuItem>😠</SideMenuItem>
-							<SideMenuItem>😍</SideMenuItem>
-							<SideMenuItem>😶</SideMenuItem>
+							<SideMenuItem active={type == 'care-mood'} onClick={handleClick} name="care-mood">😇</SideMenuItem>
+							<SideMenuItem active={type == 'angry-mood'} onClick={handleClick} name="angry-mood">😠</SideMenuItem>
+							<SideMenuItem active={type == 'love-mood'} onClick={handleClick} name="love-mood">😍</SideMenuItem>
+							<SideMenuItem active={type == 'no-mood'} onClick={handleClick} name="no-mood">😶</SideMenuItem>
 							<SideMenuDivider/>
-							<SideMenuItem><IoMdShare/></SideMenuItem>
+							<a href={'/board/' + user.uid} target="_blank">
+								<SideMenuItem><IoMdShare/></SideMenuItem>
+							</a>
 							<SideMenuDivider/>
 							<SideMenuItem onClick={tryLogout}><RiLogoutCircleLine/></SideMenuItem>
 						</ul>
@@ -46,7 +63,7 @@ const UserBoard = () => {
 					<h3 className="text-xl font-medium">{user.displayName}'s Board</h3>
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
-					{ board.map((item, index) =>
+					{ (filter.length > 0 ? filter : board).map((item, index) =>
 					  <CardBoard
 					  	key={index} 
 					  	index={index}
