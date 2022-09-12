@@ -42,12 +42,13 @@ const UserBoard = () => {
 						</ul>
 					</div>
 				</div>
-				<div className="w-full text-center mb-3 fixed top-0 left-0 right-0 p-5">
+				<div className="w-full text-center mb-3 fixed bg-slate-100 z-10 top-0 left-0 right-0 p-5">
 					<h3 className="text-xl font-medium">{user.displayName}'s Board</h3>
 				</div>
-				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
+				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-14">
 					{ board.map((item, index) =>
-					  <CardBoard 
+					  <CardBoard
+					  	key={index} 
 					  	index={index}
 					  	type={item.type}
 					  	name={item.name}
