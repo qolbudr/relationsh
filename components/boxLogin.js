@@ -7,10 +7,12 @@ import AppLogo from './appLogo'
 import { login } from '../utils/auth'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router'
 
 const BoxLogin = () => {
+	const router = useRouter()
 	const [form, setForm] = useState({})
-
+ 
 	const handleChange = (e) => {
 		const name = e.target.name;
 		const value = e.target.value;
@@ -26,13 +28,13 @@ const BoxLogin = () => {
 		if(user.hasOwnProperty('error'))
 		{
 			setForm({email: '', password: ''})
-			toast(user.error.message, {
+			return toast(user.error.message, {
 			  icon: '😠',
 			});
 		}
+
+		return router.push('user/board')
 	}
-
-
 
 	return (
 		<div className="w-10/12 md:w-80">

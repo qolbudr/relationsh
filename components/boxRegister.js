@@ -7,8 +7,10 @@ import AppLogo from './appLogo'
 import { sleep } from '../utils/sleep'
 import { register } from '../utils/auth'
 import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/router'
 
 const BoxRegister = () => {
+	const router = useRouter()
 	const [step, setStep] = useState(0)
 	const [isLoading, setLoading] = useState(false)
 	const [form, setForm] = useState({})
@@ -43,10 +45,12 @@ const BoxRegister = () => {
 		if(user.hasOwnProperty('error'))
 		{
 			setStep(0)
-			toast(user.error.message, {
+			return toast(user.error.message, {
 			  icon: '😠',
 			});
 		}
+
+		return router.push('user/board')
 	}
 
 	return (
@@ -63,8 +67,8 @@ const BoxRegister = () => {
 						<Button onClick={step == 2 ? tryRegister : stepIncrement}>{step == 2 ? 'Register' : 'Next'}</Button>
 					</FormGroup>
 					<FormGroup>
-						<div class="block text-center mt-7 w-100">
-							<h5 class="text-sm">Already have an account ?
+						<div className="block text-center mt-7 w-100">
+							<h5 className="text-sm">Already have an account ?
 								<Link href="login">
 									<a className="text-slate-500 hover:underline ml-1">Login</a>
 								</Link>
