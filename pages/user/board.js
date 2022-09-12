@@ -51,7 +51,7 @@ const UserBoard = () => {
 							<SideMenuItem active={type == 'love-mood'} onClick={handleClick} name="love-mood">😍</SideMenuItem>
 							<SideMenuItem active={type == 'no-mood'} onClick={handleClick} name="no-mood">😶</SideMenuItem>
 							<SideMenuDivider/>
-							<a href={'/board/' + user.uid} target="_blank">
+							<a href={'/board/' + user.uid} target="_blank" rel="noreferrer">
 								<SideMenuItem><IoMdShare/></SideMenuItem>
 							</a>
 							<SideMenuDivider/>

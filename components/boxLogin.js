@@ -61,7 +61,7 @@ const BoxLogin = () => {
 			</form>
 			<FormGroup>
 				<div className="block text-center mt-7 w-100">
-					<h5 className="text-sm">Don't have an account ?
+					<h5 className="text-sm">Don&apos;t have an account ?
 						<Link href="register">
 							<a className="text-slate-500 hover:underline ml-1">Register</a>
 						</Link>
