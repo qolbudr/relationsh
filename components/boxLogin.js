@@ -4,7 +4,7 @@ import Label from './forms/label'
 import Button from './forms/button'
 import Link from 'next/link'
 import AppLogo from './appLogo'
-import { login } from '../utils/auth'
+import { useAuth } from '../utils/context'
 import { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router'
@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 const BoxLogin = () => {
 	const router = useRouter()
 	const [form, setForm] = useState({})
+	const { login } = useAuth()
  
 	const handleChange = (e) => {
 		const name = e.target.name;
@@ -23,7 +24,8 @@ const BoxLogin = () => {
 		})
 	}
 
-	const tryLogin = async () => {
+	const tryLogin = async (e) => {
+		e.preventDefault()
 		const user = await login(form.email, form.password)
 		if(user.hasOwnProperty('error'))
 		{
@@ -33,7 +35,7 @@ const BoxLogin = () => {
 			});
 		}
 
-		return router.push('user/board')
+		return router.replace('user/board')
 	}
 
 	return (
@@ -43,17 +45,19 @@ const BoxLogin = () => {
 			  reverseOrder={false}
 			/>
 			<AppLogo/>
-			<FormGroup>
-				<Label>Email address</Label>
-				<Input type="email" name="email" value={form.email} onChange={handleChange} placeholder="name@example.com" label="email-input"/>
-			</FormGroup>
-			<FormGroup>
-				<Label>Password</Label>
-				<Input type="password" name="password" value={form.password} onChange={handleChange} placeholder="********" label="password-input"/>
-			</FormGroup>
-			<FormGroup>
-				<Button onClick={tryLogin}>Login</Button>
-			</FormGroup>
+			<form onSubmit={tryLogin}>
+				<FormGroup>
+					<Label>Email address</Label>
+					<Input type="email" name="email" value={form.email} onChange={handleChange} placeholder="name@example.com" label="email-input" required/>
+				</FormGroup>
+				<FormGroup>
+					<Label>Password</Label>
+					<Input type="password" name="password" value={form.password} onChange={handleChange} placeholder="********" label="password-input" required/>
+				</FormGroup>
+				<FormGroup>
+					<Button type="submit">Login</Button>
+				</FormGroup>
+			</form>
 			<FormGroup>
 				<div className="block text-center mt-7 w-100">
 					<h5 className="text-sm">Don't have an account ?

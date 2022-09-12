@@ -5,7 +5,7 @@ import FormGroup from './forms/formGroup'
 import Button from './forms/button'
 import AppLogo from './appLogo'
 import { sleep } from '../utils/sleep'
-import { register } from '../utils/auth'
+import { useAuth } from '../utils/context'
 import toast, { Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/router'
 
@@ -14,6 +14,7 @@ const BoxRegister = () => {
 	const [step, setStep] = useState(0)
 	const [isLoading, setLoading] = useState(false)
 	const [form, setForm] = useState({})
+	const { register } = useAuth()
 
 	const stepIncrement = async () => {
 		setLoading(true)
@@ -32,7 +33,14 @@ const BoxRegister = () => {
 		})
 	}
 
-	const tryRegister = async () => {
+	const tryRegister = async (e) => {
+		e.preventDefault() 
+
+		if(step !== 2)
+		{
+			return stepIncrement()
+		}
+
 		if(form.password != form.password_confirmation)
 		{
 			return toast('Password and confirmation is different', {
@@ -60,11 +68,12 @@ const BoxRegister = () => {
 			  reverseOrder={false}
 			/>
 			<AppLogo/>
+			<form onSubmit={tryRegister}>
 			<StepRegister onChange={handleChange} step={step} isLoading={isLoading}/>
 			{!isLoading ? (
 				<>
 					<FormGroup>
-						<Button onClick={step == 2 ? tryRegister : stepIncrement}>{step == 2 ? 'Register' : 'Next'}</Button>
+						<Button type="submit">{step == 2 ? 'Register' : 'Next'}</Button>
 					</FormGroup>
 					<FormGroup>
 						<div className="block text-center mt-7 w-100">
@@ -79,6 +88,7 @@ const BoxRegister = () => {
 			) : (
 				<></>
 			)}
+			</form>
 		</div>
 	)
 }

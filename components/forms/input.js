@@ -1,13 +1,7 @@
-const Input = ({placeholder, label, value, type, onChange, name}) => {
+const Input = (props) => {
 	return (
 		<input
-			name={name}
-			onChange={onChange}
-			type={type}
-			value={value}
-			aria-label={label}
-			aria-required="true"
-			placeholder={placeholder}
+			{...props}
 			className="
 			placeholder:transition 
 			placeholder:ease-in-out 

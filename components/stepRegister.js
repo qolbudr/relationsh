@@ -20,7 +20,7 @@ const StepRegister = ({step, onChange, isLoading}) => {
 		return (
 			<FormGroup>
 				<Label>Full name</Label>
-				<Input name="name" onChange={onChange} type="text" placeholder="Your name" label="name-input"/>
+				<Input name="name" onChange={onChange} type="text" placeholder="Your name" label="name-input" required/>
 			</FormGroup>
 		)
 
@@ -28,7 +28,7 @@ const StepRegister = ({step, onChange, isLoading}) => {
 		return (
 			<FormGroup>
 				<Label>Email address</Label>
-				<Input type="email" name="email" onChange={onChange} placeholder="name@example.com" label="email-input"/>
+				<Input type="email" name="email" onChange={onChange} placeholder="name@example.com" label="email-input" required/>
 			</FormGroup>
 		)
 
@@ -37,11 +37,11 @@ const StepRegister = ({step, onChange, isLoading}) => {
 			<>
 				<FormGroup>
 					<Label>Password</Label>
-					<Input type="password" name="password" onChange={onChange} placeholder="********" label="password-input"/>
+					<Input type="password" name="password" onChange={onChange} placeholder="********" label="password-input" required/>
 				</FormGroup>
 				<FormGroup>
 					<Label>Password Confirmation</Label>
-					<Input type="password" name="password_confirmation" onChange={onChange} placeholder="********" label="password-input"/>
+					<Input type="password" name="password_confirmation" onChange={onChange} placeholder="********" label="password-input" required/>
 				</FormGroup>
 			</>
 		)
